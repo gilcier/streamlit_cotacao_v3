@@ -1,14 +1,15 @@
-## ANDRE R OLIVEIRA - RA 2302429
-## PAULA PELINI RODRIGUES - RA 2302893
-
 import sqlalchemy as sqa 
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Leitura dos dados 
+# Leitura dos dados do banco 
+engine = sqa.create_engine("sqlite:///df_cotacao.db", echo=True)
+conn = engine.connect()
 
-df_cotacao = pd.read_csv('../0_bases_originais/dados_originais.csv', sep=';')
+# Leitura dos dados da tabela e inserção num dataframe
+df_cotacao = pd.read_sql('cotacao', con=conn)
+df_cotacao = pd.DataFrame(df_cotacao, columns=['Ticket','Nome','Negocios','Ultima','Variacao'])
 
 # Titulo do App
 st.title('Dados das Ações')
